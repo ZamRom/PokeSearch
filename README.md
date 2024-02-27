@@ -50,4 +50,4 @@ Dadas las stats, tipo, cantidad de ataques y sus tipos del pokemon dado por el u
 ## Herramientas a utilizar
 
 [Python](https://docs.python.org/release/3.10.6/) (v3.10.6) se usará como principal lenguaje para el desarrollo de los algoritmos mas la adicion de los modulos de [request](https://requests.readthedocs.io/en/latest/) y [mysql](https://dev.mysql.com/doc/connector-python/en/).
-Tambien se utilizará MariaDB para la base de datos.
+Tambien se utilizará [MariaDB](https://mariadb.com/kb/en/documentation/) para la base de datos.
