@@ -1,0 +1,80 @@
+drop database PokeSearch;
+create database PokeSearch;
+use PokeSearch;
+create table pokemon (
+ id smallint unsigned auto_increment,
+ name varchar(255) not null unique,
+ weight smallint unsigned not null,
+ height smallint unsigned not null,
+ hp smallint unsigned not null,
+ atk smallint unsigned not null,
+ def smallint unsigned not null,
+ satk smallint unsigned not null,
+ sdef smallint unsigned not null,
+ spe smallint unsigned not null,
+ primary key (id)
+);
+create table tipe (
+ id smallint unsigned auto_increment,
+ name varchar(255) not null unique,
+ primary key (id)
+);
+create table ability (
+ id smallint unsigned auto_increment,
+ name varchar(255) not null unique,
+ effect varchar(1560),
+ primary key (id)
+);
+create table move (
+ id smallint unsigned auto_increment,
+ name varchar(255) not null unique,
+ id_type smallint unsigned not null,
+ damage_class enum('physical','special','status') not null,
+ power tinyint unsigned,
+ pp tinyint unsigned not null,
+ accuracy tinyint unsigned,
+ priority tinyint not null,
+ ailment varchar(255),
+ effect_chance tinyint unsigned,
+ effect_entries varchar(2559),
+ primary key (id),
+ CONSTRAINT `pokemon_fk_1` FOREIGN KEY (id_type) REFERENCES tipe (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+create table evolution (
+ id_preevo smallint unsigned not null,
+ id_evol smallint unsigned not null,
+ method varchar(255) not null,
+ details varchar(511) not null,
+ primary key (id_preevo,id_evol),
+ CONSTRAINT `pokemon_fk_2` FOREIGN KEY (id_preevo) REFERENCES pokemon (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT `pokemon_fk_3` FOREIGN KEY (id_evol) REFERENCES pokemon (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+create table pok_typ (
+ id_pokemon smallint unsigned not null,
+ id_type smallint unsigned not null,
+ primary key(id_pokemon,id_type),
+ CONSTRAINT `pokemon_fk_4` FOREIGN KEY (id_pokemon) REFERENCES pokemon (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT `pokemon_fk_5` FOREIGN KEY (id_type) REFERENCES tipe (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+create table pok_mov (
+ id_pokemon smallint unsigned not null,
+ id_move smallint unsigned not null,
+ primary key(id_pokemon,id_move),
+ CONSTRAINT `pokemon_fk_6` FOREIGN KEY (id_pokemon) REFERENCES pokemon (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT `pokemon_fk_7` FOREIGN KEY (id_move) REFERENCES move (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+create table pok_abi (
+ id_pokemon smallint unsigned not null,
+ id_ability smallint unsigned not null,
+ primary key(id_pokemon,id_ability),
+ CONSTRAINT `pokemon_fk_8` FOREIGN KEY (id_pokemon) REFERENCES pokemon (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT `pokemon_fk_9` FOREIGN KEY (id_ability) REFERENCES ability (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+create table relation_type (
+ id_type_1 smallint unsigned not null,
+ relation enum('double_damage_from','double_damage_to','half_damage_from','half_damage_to','no_damage_from','no_damage_to') not null,
+ id_type_2 smallint unsigned not null,
+ primary key(id_type_1,relation,id_type_2),
+ CONSTRAINT `pokemon_fk_10` FOREIGN KEY (id_type_1) REFERENCES tipe (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+ CONSTRAINT `pokemon_fk_11` FOREIGN KEY (id_type_2) REFERENCES tipe (id) ON DELETE RESTRICT ON UPDATE CASCADE
+);

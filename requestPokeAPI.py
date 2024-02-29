@@ -1,5 +1,7 @@
 import requests
 import MySQLdb
+import time
+
 
 class Pokemon:
     def __init__(self, link: str):
@@ -47,6 +49,7 @@ class Pokemon:
         for ability in self.abilities:
             print(f"\t{ability.capitalize()}")
 
+
 class Type:
     def __init__(self, link):
         data = requests.get(link).json()
@@ -70,6 +73,7 @@ class Type:
             print(f"{key}:")
             for t in self.damage_relations[key]:
                 print(f"\t{t}")
+
 
 class Move:
     def __init__(self, link):
@@ -108,6 +112,7 @@ class Move:
         print("Effect_chance :", self.effect_chance)
         print("effect_entries :", self.effect_entries)
 
+
 class Ability:
     def __init__(self, link):
         data = requests.get(link).json()
@@ -117,49 +122,19 @@ class Ability:
             if key["language"]["name"] == "en":
                 self.effect_entries = key["effect"].replace("\n", " ")
         try:
-            len(self.effect_entries)
+            if len(self.effect_entries) > 1560:
+                print(
+                    f"\t\t\t\t\t\tWARNING WITH {self.name}({self.id}) len:{len(self.effect_entries)}"
+                )
         except AttributeError:
             self.effect_entries = ""
+            # print(f"\t\t\t\t\t\tWARNING WITH {self.name}({self.id})")
 
     def print(self):
         print(f"Id            : {self.id}")
         print(f"Name          : {self.name}")
         print(f"Effect_entries: {self.effect_entries}")
 
-def evoChain(link):
-    data = requests.get(link).json()
-    if len(data["chain"]["evolves_to"]):
-        for evo in data["chain"]["evolves_to"]:
-            preevol(evo, data["chain"]["species"]["name"])
-
-def preevol(D: dict, preevo: str):
-    evolution = {}
-    evolution["preevo"] = preevo
-    for key in D["evolution_details"][0]:
-        if D["evolution_details"][0][key] not in [None, "", False]:
-            if key == "trigger":
-                evolution[key] = D["evolution_details"][0][key]["name"]
-            if type(D["evolution_details"][0][key]) == dict:
-                evolution[key] = D["evolution_details"][0][key]["name"]
-            else:
-                evolution[key] = D["evolution_details"][0][key]
-    evolutionD[D["species"]["name"]] = evolution
-    print(f'{D["species"]["name"]}: {evolution}')
-    if len(D["evolves_to"]):
-        preevol(D["evolves_to"][0], D["species"]["name"])
-
-attribute = [
-    "move",
-    "pokemon",
-    "type",
-    "ability",
-    "evolution-chain",
-]
-pokemonD = {}
-moveD = {}
-abilityD = {}
-typeD = {}
-evolutionD = {}
 
 db = MySQLdb.connect(  # esto hace la conexion a la base de datos
     host="localhost",  # el puerto es 3308 porque es el puerto que
@@ -168,43 +143,42 @@ db = MySQLdb.connect(  # esto hace la conexion a la base de datos
     database="PokeSearch",
     port=3308,
 )
-# --------------------------------------------------------------------------------------------------------------------------
-for i in range(1,19):                                                                          #Add all Types
-    t = Type(f"https://pokeapi.co/api/v2/type/{i}/")                                           #to DB
-    typeD[t.name] = t
 
-typePrimary = [(typeD[type].id, typeD[type].name) for type in typeD]
-damage_relations = []
+typeD = {}
 
-for type in typeD:
-    for dmr in typeD[type].damage_relations:
-        for t in typeD[type].damage_relations[dmr]:
-            damage_relations.append((typeD[type].id, dmr, typeD[t].id))
+pokemonD = {}
+moveD = {}
+abilityD = {}
 
-c = db.cursor()
-c.executemany(
-    "INSERT INTO tipe (id,name) VALUES (%s,%s);",
-    typePrimary
-)
+cursor = db.cursor()  # recordar que esto lo estoy haciendo porque no quiero hacer el
 
-c.executemany(
-    "INSERT INTO relation_type (id_type_1,relation,id_type_2) VALUES (%s,%s,%s)",
-    damage_relations
-)
-db.commit()
-# db.close()
-# -------------------------------------------------------------------------------------------------------------------------
-for i in range(1, 906):
-    poke = Pokemon(f"https://pokeapi.co/api/v2/pokemon/{i}")
-    pokemonD[poke.name] = poke
-    for a in poke.abilities:
-        if a not in abilityD:
-            ability = Ability(f"https://pokeapi.co/api/v2/ability/{a}")
-            abilityD[a] = ability
-    for m in poke.moves:
-        if m not in moveD:
-            move = Move(f"https://pokeapi.co/api/v2/move/{m}")
-            moveD[m] = move
+cursor.execute(
+    "SELECT * FROM tipe;"
+)                    # request cada vez, pero recordar que eso no son solo llaves y
+results = cursor.fetchall()  # valores sino que son objetos
+for t in results:
+    typeD[t[1]] = t[0]
+
+kanto = (1, 152)
+jotho = (152, 252)
+hoen = (252, 387)
+sinnoh = (387,494)
+teselia = (494,650)
+kalos = (450,722)
+alola = (722,810)
+galar = (810,906)
+forms = (1026,1254)
+regions = {
+    '151':'kanto',
+    '251': 'jotho',
+    '386':'hoen',
+    '493':'sinnoh',
+    '649':'teselia',
+    '721':'kalos',
+    '809':'alola',
+    '905':'galar'
+    }
+start = time.time()
 
 pokeL = []
 for p in pokemonD:
@@ -227,7 +201,7 @@ pokeType = []
 for p in pokemonD:
     p_id = pokemonD[p].id
     for t in pokemonD[p].types:
-        pokeType.append((p_id, typeD[t].id))
+        pokeType.append((p_id, typeD[t]))
 
 abilityL = []
 for a in abilityD:
@@ -245,7 +219,7 @@ for m in moveD:
         (
             moveD[m].id,
             moveD[m].name,
-            typeD[moveD[m].type].id,
+            typeD[moveD[m].type],
             moveD[m].damage_class,
             moveD[m].power,
             moveD[m].pp,
@@ -281,5 +255,6 @@ c.executemany(
 c.executemany("INSERT INTO pok_mov (id_pokemon,id_move) VALUES (%s,%s);", pokeMove)
 
 db.commit()
-# evoChain(f"https://pokeapi.co/api/v2/{attribute[4]}/{id}")
 db.close()
+end = time.time()
+print(end - start)
