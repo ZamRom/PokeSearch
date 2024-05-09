@@ -57,9 +57,8 @@ class Type:
         for key in data["damage_relations"]:
             if len(data["damage_relations"][key]):
                 L = []
-                for t in data["damage_relations"][key][0]:
-                    if t == "name":
-                        L.append(data["damage_relations"][key][0][t])
+                for t in data["damage_relations"][key]:
+                    L.append(t["name"])
                 self.damage_relations[key] = L
             else:
                 self.damage_relations[key] = ""
@@ -165,6 +164,16 @@ attribute = [
     "ability",
     "evolution-chain",
 ]
+regions = {
+    "151": "kanto",
+    "251": "jotho",
+    "386": "hoen",
+    "493": "sinnoh",
+    "649": "teselia",
+    "721": "kalos",
+    "809": "alola",
+    "905": "galar",
+}
 pokemonD = {}
 moveD = {}
 abilityD = {}
