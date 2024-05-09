@@ -61,7 +61,7 @@ cambios a nivel de objeto y de BD.
 3.- instalar en settings.py
 4.-hacer las migraciones.
 5.-dar de alta la url.
-Run server (servidor embabido que tiene de django)
+Run server (servidor embebido que tiene de django)
 no usar la BD por default y el servidor embebido de Django.
 antes de migración y poner en producción hacer el respaldo.
 método get, post constructor de la clase.
