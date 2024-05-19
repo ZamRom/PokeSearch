@@ -12,7 +12,8 @@ create table pokemon (
  satk smallint unsigned not null,
  sdef smallint unsigned not null,
  spe smallint unsigned not null,
- total_stat smallint as (hp+atk+def+satk+sdef+spe);
+ total_stat smallint as (hp+atk+def+satk+sdef+spe),
+ sprite varchar(255) DEFAULT NULL;
  primary key (id)
 );
 create table tipe (
