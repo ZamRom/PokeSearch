@@ -20,6 +20,7 @@ class Pokemon:
         self.name = data["name"]
         self.weight = data["weight"]
         self.height = data["height"]
+        self.sprite = data["sprites"]["front_default"]
         for stat in data["stats"]:
             name = stat["stat"]["name"]
             self.stats[name] = stat["base_stat"]
@@ -200,7 +201,9 @@ for tipe in typeD:
             damage_relations.append((typeD[tipe].id, dmr, typeD[t].id))
 
 for i in range(1, 906):
+#for i in range(1,152):
     poke = Pokemon(f"https://pokeapi.co/api/v2/pokemon/{i}")
+    print(poke.name)
     pokemonD[poke.name] = poke
     for a in poke.abilities:
         if a not in abilityD:
@@ -233,6 +236,7 @@ for p in pokemonD:
             pokemonD[p].stats["special-attack"],
             pokemonD[p].stats["special-defense"],
             pokemonD[p].stats["speed"],
+            pokemonD[p].sprite,
         )
     )
 
@@ -279,28 +283,37 @@ for p in pokemonD:
 
 c = db.cursor()
 c.executemany("INSERT INTO tipe (id,name) VALUES (%s,%s);", typePrimary)
-
+print('guarde tipos')
 c.executemany(
     "INSERT INTO relation_type (id_type_1,relation,id_type_2) VALUES (%s,%s,%s)",
     damage_relations,
 )
+print('guarde las relaciones')
 c.executemany(
-    "INSERT INTO pokemon (id,name,weight,height,hp,atk,def,satk,sdef,spe) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+    "INSERT INTO pokemon (id,name,weight,height,hp,atk,def,satk,sdef,spe,sprite) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
     pokeL,
 )
+print('guarde los pokemon')
 c.executemany(
     "INSERT INTO evolution (id_preevo,id_evol,method,details) VALUES (%s,%s,%s,%s);",
     evolutionL,
 )
+print('guarde las evoluciones')
 c.executemany("INSERT INTO pok_typ (id_pokemon,id_type) VALUES (%s,%s);", pokeType)
+print('guarde los tipos del pokemon')
 c.executemany("INSERT INTO ability (id,name,effect) VALUES (%s,%s,%s);", abilityL)
+print('guarde las habilidades')
 c.executemany(
     "INSERT INTO pok_abi (id_pokemon,id_ability) VALUES (%s,%s);", pokeAbility
 )
+print('guarde las habilidades del pokemon')
 c.executemany(
     "INSERT INTO move (id,name,id_type,damage_class,power,pp,accuracy,priority,ailment,effect_chance,effect_entries) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",
     moveL,
 )
+print('guarde los movimientos')
 c.executemany("INSERT INTO pok_mov (id_pokemon,id_move) VALUES (%s,%s);", pokeMove)
+print('guarde los movimientos del pokemon')
 db.commit()
+print('ahora si guarde las cosas')
 db.close()
