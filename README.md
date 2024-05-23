@@ -56,13 +56,18 @@ Tambien se utilizará [MariaDB](https://mariadb.com/kb/en/documentation/) para l
 Práctica con Messanine
 cambios a nivel de objeto y de BD.
 # Desarrollo de plugins
+
 1.-crear estructura de plugin.
-2.-crear las ligas del plugin principal a nuestro plugin.(messanine templates)
+
+2.-crear las ligas del plugin principal a nuestro framework Django
+
 3.- instalar en settings.py
+
 4.-hacer las migraciones.
+
 5.-dar de alta la url.
+
 Run server (servidor embebido que tiene de django)
-no usar la BD por default y el servidor embebido de Django.
 antes de migración y poner en producción hacer el respaldo.
 método get, post constructor de la clase.
 firestore admin certificate example crear el identificador de Django.
