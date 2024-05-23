@@ -53,7 +53,7 @@ Dadas las stats, tipo, cantidad de ataques y sus tipos del pokemon dado por el u
 Tambien se utilizará [MariaDB](https://mariadb.com/kb/en/documentation/) para la base de datos.
 
 
-Práctica con Messanine
+Práctica con Django
 cambios a nivel de objeto y de BD.
 # Desarrollo de plugins
 
