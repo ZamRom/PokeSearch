@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        background-color: rgba(156, 225, 144, 0.7); /* Cambia el valor alpha (1) según la opacidad deseada */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+    }
+    .card img {
+        display: block;
+        margin: 0 auto;
+        width: 100px;
+        height: 100px;
+    }
+    .card-title {
+        font-size: 1.5em;
+        margin: 10px 0;
+    }
+    .card-subtitle {
+        font-size: 1.2em;
+        color: #888;
+        margin: 5px 0;
+    }
+    .card-type {
+        font-size: 1em;
+        color: #555;
+        margin: 10px 0;
+    }
+    .card-stats {
+        text-align: left;
+        margin: 20px 0 0;
+    }
+    .card-stats table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .card-stats th, .card-stats td {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+    }
+    .card-stats th {
+        text-align: left;
+        font-weight: normal;
+        color: #555;
+    }
+    .card-stats td {
+        text-align: right;
+    }
+    .flex-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+<div class="main-container">
+    <div class="card">
+        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+        <div class="card-title">{{ pokemon.name }}</div>
+        <div class="card-subtitle">#{{ pokemon.id }}</div>
+        <div class="card-type">{{ pokemon.type|join:", " }}</div>
+        <div class="card-stats">
+            <table>
+                <tr>
+                    <th colspan="2" style="font-weight: bold;">Stats</th>
+                </tr>
+                <tr>
+                    <th>Hp</th>
+                    <td>{{ pokemon.hp }}</td>
+                </tr>
+                <tr>
+                    <th>Attack</th>
+                    <td>{{ pokemon.atk }}</td>
+                </tr>
+                <tr>
+                    <th>Defense</th>
+                    <td>{{ pokemon.def_stat }}</td>
+                </tr>
+                <tr>
+                    <th>Special-Attack</th>
+                    <td>{{ pokemon.satk }}</td>
+                </tr>
+                <tr>
+                    <th>Special-Defense</th>
+                    <td>{{ pokemon.sdef }}</td>
+                </tr>
+                <tr>
+                    <th>Speed</th>
+                    <td>{{ pokemon.spe }}</td>
+                </tr>
+                <tr>
+                    <th>Total</th>
+                    <td>{{ pokemon.total_stat }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h2>Peor contra:</h2>
+    <div class="flex-container">
+        {% for poke in worst %}
+        <div class="card">
+            <img src="{{ poke.sprite }}" alt="{{ poke.name }}">
+            <div class="card-title">{{ poke.name }}</div>
+            <div class="card-subtitle">#{{ poke.id }}</div>
+            <div class="card-type">{{ poke.type|join:", " }}</div>
+            <div class="card-stats">
+                <table>
+                    <tr>
+                        <th colspan="2" style="font-weight: bold;">Stats</th>
+
+                    </tr>
+                    <tr>
+                        <th>Hp</th>
+                        <td>{{ poke.hp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Attack</th>
+                        <td>{{ poke.atk }}</td>
+                    </tr>
+                    <tr>
+                        <th>Defense</th>
+                        <td>{{ poke.def_stat }}</td>
+                    </tr>
+                    <tr>
+                        <th>Special-Attack</th>
+                        <td>{{ poke.satk }}</td>
+                    </tr>
+                    <tr>
+                        <th>Special-Defense</th>
+                        <td>{{ poke.sdef }}</td>
+                    </tr>
+                    <tr>
+                        <th>Speed</th>
+                        <td>{{ poke.spe }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total</th>
+                        <td>{{ poke.total_stat }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <br>
+    <br>
+    <h2>Mejor contra:</h2>
+    <div class="flex-container">
+        {% for poke in better %}
+        <div class="card">
+            <img src="{{ poke.sprite }}" alt="{{ poke.name }}">
+            <div class="card-title">{{ poke.name }}</div>
+            <div class="card-subtitle">#{{ poke.id }}</div>
+            <div class="card-type">{{ poke.type|join:", " }}</div>
+            <div class="card-stats">
+                <table>
+                    <tr>
+                        <th colspan="2" style="font-weight: bold;">Stats</th>
+                    </tr>
+                    <tr>
+                        <th>Hp</th>
+                        <td>{{ poke.hp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Attack</th>
+                        <td>{{ poke.atk }}</td>
+                    </tr>
+                    <tr>
+                        <th>Defense</th>
+                        <td>{{ poke.def_stat }}</td>
+                    </tr>
+                    <tr>
+                        <th>Special-Attack</th>
+                        <td>{{ poke.satk }}</td>
+                    </tr>
+                    <tr>
+                        <th>Special-Defense</th>
+                        <td>{{ poke.sdef }}</td>
+                    </tr>
+                    <tr>
+                        <th>Speed</th>
+                        <td>{{ poke.spe }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total</th>
+                        <td>{{ poke.total_stat }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
