@@ -79,7 +79,7 @@ firestore admin certificate example crear el identificador de Django.
 
 1. Clona este repositorio:
     ```bash
-    git clone https://github.com/Danny-CA/Hanni-Inn.git
+    git clone https://github.com/ZamRom/Pokesearch.git
     ```
 
 2. Navega al directorio del proyecto:
