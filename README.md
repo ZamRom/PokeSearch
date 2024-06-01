@@ -10,7 +10,7 @@ Humberto Cortez Vázquez - tejedordealas@gmail.com
 
 ## Licencia
 
-PokeSearch es distribuido bajo la licencia [LICENSE](MTI) .
+PokeSearch es distribuido bajo la licencia [MTI](https://es.wikipedia.org/wiki/Licencia_MIT) .
 
 ## Descripción
 
