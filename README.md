@@ -10,7 +10,7 @@ Humberto Cortez Vázquez - tejedordealas@gmail.com
 
 ## Licencia
 
-PokeSearch es distribuido bajo la licencia MIT.
+PokeSearch es distribuido bajo la licencia [LICENSE](MTI) .
 
 ## Descripción
 
@@ -47,12 +47,6 @@ Dadas las stats, tipo, cantidad de ataques y sus tipos del pokemon dado por el u
 **Procesamiento:** Una vez que el usuario se conecte al microservicio y de el nombre de un pokemon hacer el uso de los 3 algoritmos para procesar la informacion y retornar al usuario solo la informacion que necesita sobre los pokemon retornados.
 **Publicación:** Apartado en desarrollo\*
 
-## Herramientas a utilizar
-
-[Python](https://docs.python.org/release/3.10.6/) (v3.10.6) se usará como principal lenguaje para el desarrollo de los algoritmos mas la adicion de los modulos de [request](https://requests.readthedocs.io/en/latest/) y [mysql](https://dev.mysql.com/doc/connector-python/en/).
-Tambien se utilizará [MariaDB](https://mariadb.com/kb/en/documentation/) para la base de datos.
-
-
 Práctica con Django
 cambios a nivel de objeto y de BD.
 # Desarrollo de plugins
@@ -71,3 +65,34 @@ Run server (servidor embebido que tiene de django)
 antes de migración y poner en producción hacer el respaldo.
 método get, post constructor de la clase.
 firestore admin certificate example crear el identificador de Django.
+
+## Tecnologías Utilizadas
+
+- [Python](https://docs.python.org/release/3.10.6/) (v3.10.6)
+- [Django](https://www.djangoproject.com/): Una biblioteca de interfaces gráficas para Python.
+- [request](https://requests.readthedocs.io/en/latest/)
+- [mysql](https://dev.mysql.com/doc/connector-python/en/)
+- [MariaDB](https://mariadb.com/kb/en/documentation/)
+- [SQLite](https://www.sqlite.org/):  Un sistema de gestión de bases de datos relacional.
+
+## Instalación
+
+1. Clona este repositorio:
+    ```bash
+    git clone https://github.com/Danny-CA/Hanni-Inn.git
+    ```
+
+2. Navega al directorio del proyecto:
+    ```bash
+    cd project
+    ```
+
+3. Instala las dependencias necesarias:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Ejecuta la aplicación:
+    ```bash
+    python manage.py runserver
+    ```
