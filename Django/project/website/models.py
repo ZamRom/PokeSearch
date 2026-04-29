@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Pokemon(models.Model):
+    id = models.CharField(max_length=5,unique=True,primary_key=True)
     name = models.CharField(max_length=255, unique=True)
     weight = models.PositiveSmallIntegerField()
     height = models.PositiveSmallIntegerField()

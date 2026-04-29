@@ -8,6 +8,7 @@ from .models import Pok_typ,Pok_mov,Move, Pokemon,Tipe,Relation
 class Pok:
     def __init__(self, pokemon_name: str):
         # Obtenemos los datos del Pokemon
+        
         data = get_object_or_404(Pokemon, name__iexact=pokemon_name)
         # Inicializamos los atributos del objeto Pok
         self.id = data.id
@@ -219,7 +220,11 @@ def buscar_pokemon(request):
     query = request.GET.get('query', '')
     if query:
         try:
-            pokemon = Pokemon.objects.get(name__iexact=query)
+            try: 
+                t = int(query)
+                pokemon = Pokemon.objects.get(id=query)
+            except ValueError:
+                pokemon = Pokemon.objects.get(name__iexact=query)
         except Pokemon.DoesNotExist:
             return JsonResponse({'error': 'Pokémon no encontrado.'}, status=404)
         

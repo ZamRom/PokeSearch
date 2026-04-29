@@ -81,6 +81,10 @@
 </style>
 
 <div class="main-container">
+    <form id="searchForm" method="get" style="display: flex; justify-content: center; align-items: center;">
+        <input type="text" id="query" name="query" placeholder="Enter Pokémon's Name" style="width: 250px; height: 32px; font-size: 1.2em; text-align: center; margin-right: 10px;">
+        <button type="submit" class="btn btn-outline-primary" style="height: 34px;">Search</button>
+    </form>
     <div class="card" style="background-color: {{ pokemon.color }};">
         <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
         <div class="card-title">{{ pokemon.name }}</div>
@@ -222,4 +226,26 @@
     </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var query = document.getElementById('query').value.trim().toLowerCase(); // Convertir a minúsculas
+        if (query !== '') {
+            fetch(`/buscar?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        window.location.href = `/pokemon/${data.name}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    });
+});
+</script>
 {% endblock %}
